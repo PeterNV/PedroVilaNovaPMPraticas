@@ -17,11 +17,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun MapPage(modifier: Modifier = Modifier) {
+fun MapPage(modifier: Modifier = Modifier,viewModel: MainViewModel) {
 
-    val activity = LocalContext.current as? Activity
+    //val activity = LocalContext.current as? Activity
     Column(
         modifier = Modifier.fillMaxSize()
             .background(colorResource(id = R.color.purple_700))

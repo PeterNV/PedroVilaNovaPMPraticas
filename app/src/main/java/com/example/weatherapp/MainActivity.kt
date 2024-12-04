@@ -6,12 +6,14 @@ package com.example.weatherapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
+//import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.ui.nav.BottomNavBar
 import com.example.weatherapp.ui.nav.BottomNavItem
@@ -27,6 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent{
             //WeatherAppMainUI()
             val navController = rememberNavController()
+            val viewModel : MainViewModel by viewModels()
             WeatherAppTheme {
                 Scaffold(
                     topBar = {
@@ -58,7 +61,7 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        MainNavHost(navController = navController)
+                        MainNavHost(navController = navController, viewModel = viewModel)
                     }
                 }
             }

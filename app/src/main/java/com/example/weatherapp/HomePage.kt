@@ -16,9 +16,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun HomePage(modifier: Modifier = Modifier) {
+fun HomePage(modifier: Modifier = Modifier,viewModel: MainViewModel) {
 
 
     Column(
