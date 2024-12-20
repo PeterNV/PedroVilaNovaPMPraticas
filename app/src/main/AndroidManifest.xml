@@ -38,5 +38,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
+        <activity android:name=".LoginActivity">
+            <!-- Adicione aqui as propriedades específicas, se necessário -->
+        </activity>
+        <activity android:name=".RegisterActivity">
+            <!-- Adicione aqui as propriedades específicas, se necessário -->
+        </activity>
     </application>
 </manifest>

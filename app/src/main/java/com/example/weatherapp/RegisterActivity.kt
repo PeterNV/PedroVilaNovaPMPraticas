@@ -21,8 +21,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.platform.LocalContext
-
-
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 
 class RegisterActivity : ComponentActivity() {
@@ -99,14 +99,20 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                 enabled = email.isNotEmpty() && password.isNotEmpty() && password == cpassword,
                 onClick = {
 
-                    Toast.makeText(context, "Registro realizado com sucesso!", Toast.LENGTH_SHORT).show()
+                    Firebase.auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(activity!!) { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(activity,"Registro OK!", Toast.LENGTH_LONG).show()
+                                activity.startActivity(
+                                    Intent(activity, MainActivity::class.java).setFlags(
+                                        FLAG_ACTIVITY_SINGLE_TOP )
+                                )
+                            } else {
+                                Toast.makeText(activity,
+                                    "Registro FALHOU!", Toast.LENGTH_LONG).show()
+                            }
+                        }
 
-                    activity?.startActivity(
-                        Intent(activity, MainActivity::class.java).setFlags(
-                            FLAG_ACTIVITY_SINGLE_TOP
-                        )
-                    )
-                    activity?.finish()
                 }
 
             ) {Text("Registrar") }
