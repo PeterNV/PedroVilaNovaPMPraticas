@@ -38,11 +38,27 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
-        <activity android:name=".LoginActivity">
-            <!-- Adicione aqui as propriedades específicas, se necessário -->
+        <activity android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="example.com" />
+            </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity">
-            <!-- Adicione aqui as propriedades específicas, se necessário -->
+        <activity android:name=".RegisterActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="example.com" />
+            </intent-filter>
         </activity>
     </application>
 </manifest>
