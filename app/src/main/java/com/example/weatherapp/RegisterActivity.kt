@@ -21,6 +21,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.platform.LocalContext
+import com.example.weatherapp.db.fb.FBDatabase
+import com.example.weatherapp.model.User
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
@@ -51,6 +53,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
     val context = LocalContext.current // Obtenha o contexto aqui
 
     val activity = LocalContext.current as? Activity
+
     Column(
         modifier = modifier.padding(16.dp).fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -107,6 +110,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                                     Intent(activity, MainActivity::class.java).setFlags(
                                         FLAG_ACTIVITY_SINGLE_TOP )
                                 )
+                                FBDatabase().register(User(name, email))
                             } else {
                                 Toast.makeText(activity,
                                     "Registro FALHOU!", Toast.LENGTH_LONG).show()
