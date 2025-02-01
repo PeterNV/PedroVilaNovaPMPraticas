@@ -25,6 +25,7 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 
 //import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.weatherapp.api.WeatherService
 import com.example.weatherapp.db.fb.FBDatabase
 import com.example.weatherapp.ui.CityDialog
 import com.example.weatherapp.ui.nav.BottomNavBar
@@ -46,8 +47,9 @@ class MainActivity : ComponentActivity() {
         setContent{
             //WeatherAppMainUI()
             val fbDB = remember { FBDatabase() }
+            val weatherService = remember { WeatherService() }
             val viewModel : MainViewModel = viewModel(
-                factory = MainViewModelFactory(fbDB)
+                factory = MainViewModelFactory(fbDB, weatherService)
             )
             val navController = rememberNavController()
             //val viewModel : MainViewModel by viewModels()
@@ -59,8 +61,15 @@ class MainActivity : ComponentActivity() {
             WeatherAppTheme {
                 if (showDialog) CityDialog(
                     onDismiss = { showDialog = false },
+                    /*
                     onConfirm = { city ->
                         if (city.isNotBlank()) viewModel.add(city)
+                        showDialog = false
+                    })
+
+                     */
+                    onConfirm = { name ->
+                        if (name.isNotBlank()) viewModel.add(name)
                         showDialog = false
                     })
                 Scaffold(

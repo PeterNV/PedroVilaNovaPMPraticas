@@ -49,7 +49,7 @@ fun MapPage(modifier: Modifier = Modifier,viewModel: MainViewModel) {
                     PackageManager.PERMISSION_GRANTED
         )
     }
-    GoogleMap (modifier = Modifier.fillMaxSize(), onMapClick = { viewModel.add("Cidade@${it.latitude}:${it.longitude}", location = it) },cameraPositionState = camPosState,properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
+    GoogleMap (modifier = Modifier.fillMaxSize(), onMapClick = { viewModel.add( location = it) },cameraPositionState = camPosState,properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
         uiSettings = MapUiSettings(myLocationButtonEnabled = true)   )  {
         Marker(
             state = MarkerState(position = recife),
