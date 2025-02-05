@@ -27,13 +27,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 //import androidx.compose.ui.text.font.FontWeight
 //import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateList
-import androidx.lifecycle.ViewModel
 import com.example.weatherapp.model.City
 
 //@Preview(showBackground = true)
@@ -66,6 +62,9 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
             .padding(8.dp)
     ) {
         items(cityList) { city ->
+            if (city.weather == null) {
+                viewModel.loadWeather(city)
+            }
             CityItem(city = city, onClose = {
                 viewModel.remove(city)
 /* TO DO */     Toast.makeText(activity, "Fechado!", Toast.LENGTH_LONG).show()
@@ -99,7 +98,7 @@ fun CityItem(
                 text = city.name,
                 fontSize = 24.sp)
             Text(modifier = Modifier,
-                text = city.weather?:"Carregando clima...",
+                text = city.weather?.desc?:"carregando...",
                 fontSize = 16.sp)
         }
         IconButton(onClick = onClose) {

@@ -1,18 +1,18 @@
 package com.example.weatherapp
 
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.api.WeatherService
 import com.example.weatherapp.db.fb.FBDatabase
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.User
+import com.example.weatherapp.model.Weather
 import com.google.android.gms.maps.model.LatLng
 
 private fun getCities() = List(20) { i ->
-    City(name = "Cidade $i", weather = "Carregando clima...")
+    City(name = "Cidade $i")
 }
 /*
 class MainViewModel : ViewModel() {
@@ -32,10 +32,14 @@ class MainViewModel : ViewModel() {
 */
 class MainViewModel (private val db: FBDatabase, private val service : WeatherService): ViewModel(),
     FBDatabase.Listener {
+    private val _cities = mutableStateMapOf<String, City>()
+    val cities : List<City>
+        get() = _cities.values.toList()
+    /*
     private val _cities = mutableStateListOf<City>()
     val cities
         get() = _cities.toList()
-
+    */
     private val _user = mutableStateOf<User?> (null)
     val user : User?
         get() = _user.value
@@ -66,20 +70,38 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
             }
         }
     }
+/*
+    override fun onCityUpdated(city: City) {
+        _cities.remove(city.name)
+        _cities[city.name] = city.copy()
+    }
+*/
     override fun onUserLoaded(user: User) {
         _user.value = user
     }
 
-    override fun onCityAdded(city: City) {
-        _cities.add(city)
-    }
+    override fun onCityAdded(city: City) { _cities[city.name] = city }
 
     override fun onCityUpdate(city: City) {
-        TODO("Not yet implemented")
+        _cities.remove(city.name)
+        _cities[city.name] = city.copy()
     }
 
     override fun onCityRemoved(city: City) {
-        _cities.remove(city)
+        _cities.remove(city.name)
+    }
+
+    fun loadWeather(city: City) {
+        service.getCurrentWeather(city.name) { apiWeather ->
+            city.weather = Weather (
+                date = apiWeather?.current?.last_updated?:"...",
+                desc = apiWeather?.current?.condition?.text?:"...",
+                temp = apiWeather?.current?.temp_c?:-1.0,
+                imgUrl = "https:" + apiWeather?.current?.condition?.icon
+            )
+            _cities.remove(city.name)
+            _cities[city.name] = city.copy()
+        }
     }
 }
 class MainViewModelFactory(private val db : FBDatabase,

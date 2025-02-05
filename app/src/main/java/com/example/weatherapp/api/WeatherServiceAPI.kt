@@ -11,6 +11,7 @@ interface WeatherServiceAPI {
         const val API_KEY = BuildConfig.WEATHER_API_KEY
     }
     // Procura a localização baseado no nome ou coordenadas
-    @GET("search.json?key=$API_KEY&lang=pt_br")
+    @GET("current.json?key=$API_KEY&lang=pt")
+    fun currentWeather(@Query("q") query: String): Call<APICurrentWeather?>
     fun search(@Query("q") query: String): Call<List<APILocation>?>
 }
