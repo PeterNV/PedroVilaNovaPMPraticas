@@ -15,6 +15,7 @@ class FBDatabase {
         fun onCityAdded(city: City)
         fun onCityUpdate(city: City)
         fun onCityRemoved(city: City)
+        fun onCityUpdated(city: City)
     }
 
     private val auth = Firebase.auth
