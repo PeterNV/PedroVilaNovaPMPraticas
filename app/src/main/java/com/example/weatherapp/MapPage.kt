@@ -19,12 +19,13 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import android.Manifest
+import com.example.weatherapp.model.City
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 
 //@Preview(showBackground = true)
 @Composable
-fun MapPage(modifier: Modifier = Modifier,viewModel: MainViewModel) {
+fun MapPage(modifier: Modifier = Modifier,viewModel: MainViewModel ) {
     val recife = LatLng(-8.05, -34.9)
     val caruaru = LatLng(-8.27, -35.98)
     val joaopessoa = LatLng(-7.12, -34.84)
@@ -39,30 +40,21 @@ fun MapPage(modifier: Modifier = Modifier,viewModel: MainViewModel) {
                     PackageManager.PERMISSION_GRANTED
         )
     }
-    GoogleMap (modifier = Modifier.fillMaxSize(), onMapClick = {
-        viewModel.add( location = it);
-         },
-
-        cameraPositionState = camPosState,
-        properties = MapProperties(isMyLocationEnabled = hasLocationPermission),
-        uiSettings = MapUiSettings(myLocationButtonEnabled = true))
-
-
-    {
+    GoogleMap (modifier = Modifier.fillMaxSize(), onMapClick = { viewModel.add( location = it); }, cameraPositionState = camPosState, properties = MapProperties(isMyLocationEnabled = hasLocationPermission), uiSettings = MapUiSettings(myLocationButtonEnabled = true)) {
         viewModel.cities.forEach {
             if (it.location != null) {
                 if (it.weather == null) {
 
-                    //viewModel.loadWeather(it)
-                    //val city = null
-                    //city?.let { it1 -> viewModel.loadWeather(it1) }
-                    viewModel.loadWeather(city = TODO())
+                    viewModel.loadWeather(it) // Agora correto
                 }
-                Marker( state = MarkerState(position = it.location!!),
+                Marker(
+                    state = MarkerState(position = it.location!!),
                     title = it.name,
-                    snippet = it.weather?.desc?:"Carregando...")
+                    snippet = it.weather?.desc ?: "Carregando..."
+                )
             }
         }
+
         Marker(
             state = MarkerState(position = recife),
             title = "Recife",

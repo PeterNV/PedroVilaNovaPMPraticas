@@ -10,6 +10,7 @@ import com.example.weatherapp.model.City
 import com.example.weatherapp.model.User
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.Forecast
+import com.example.weatherapp.ui.nav.Route
 import com.google.android.gms.maps.model.LatLng
 
 private fun getCities() = List(20) { i ->
@@ -33,10 +34,16 @@ class MainViewModel : ViewModel() {
 */
 class MainViewModel (private val db: FBDatabase, private val service : WeatherService): ViewModel(),
     FBDatabase.Listener {
+    private var _page = mutableStateOf<Route>(Route.Home)
+    var page: Route
+        get() = _page.value
+        set(tmp) { _page.value = tmp }
+
     private var _city = mutableStateOf<City?>(null)
     var city: City?
         get() = _city.value
         set(tmp) { _city = mutableStateOf(tmp?.copy()) }
+
     private val _cities = mutableStateMapOf<String, City>()
     val cities : List<City>
         get() = _cities.values.toList()
@@ -99,7 +106,7 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
         _cities.remove(city.name)
     }
 
-    fun loadWeather(city: City) {
+        fun loadWeather(city: City) {
         service.getCurrentWeather(city.name) { apiWeather ->
             city.weather = Weather (
                 date = apiWeather?.current?.last_updated?:"...",

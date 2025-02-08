@@ -31,7 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.items
 import com.example.weatherapp.model.City
-
+//import com.google.android.libraries.mapsplatform.transportation.consumer.model.Route
+import com.example.weatherapp.ui.nav.Route
 //@Preview(showBackground = true)
 @Composable
 fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
@@ -67,10 +68,12 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
             }
             CityItem(city = city,  onClick = {
                 viewModel.city = city
-                viewModel.remove(city)
-/* TO DO */     Toast.makeText(activity, "Fechado!", Toast.LENGTH_LONG).show()
+                viewModel.page = Route.Home
+                //viewModel.remove(city)
+/* TO DO */      Toast.makeText(activity, "Cidade OK!", Toast.LENGTH_LONG).show()
             }, onClose = {
-/* TO DO */     Toast.makeText(activity, "Cidade OK!", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Fechado!", Toast.LENGTH_LONG).show()
+/* TO DO */
             })
         }
     }
