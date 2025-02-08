@@ -30,6 +30,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.graphics.Color
 import com.example.weatherapp.model.City
 //import com.google.android.libraries.mapsplatform.transportation.consumer.model.Route
 import com.example.weatherapp.ui.nav.Route
@@ -40,7 +41,7 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
     val activity = LocalContext.current as? Activity
     Column(
         modifier = Modifier.fillMaxSize()
-            .background(colorResource(id = R.color.purple_200))
+            .background(Color.White)
             .wrapContentSize(Alignment.Center)
     ) {
         /*
@@ -69,9 +70,9 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
             CityItem(city = city,  onClick = {
                 viewModel.city = city
                 viewModel.page = Route.Home
-                //viewModel.remove(city)
 /* TO DO */      Toast.makeText(activity, "Cidade OK!", Toast.LENGTH_LONG).show()
             }, onClose = {
+                viewModel.remove(city)
                 Toast.makeText(activity, "Fechado!", Toast.LENGTH_LONG).show()
 /* TO DO */
             })
@@ -96,6 +97,7 @@ fun CityItem(
             Icons.Rounded.FavoriteBorder,
             contentDescription = ""
         )
+        //modifier = Modifier.background(Color.White)
         Spacer(modifier = Modifier.size(12.dp))
         Column(modifier = modifier.weight(1f)) {
             Text(modifier = Modifier,
