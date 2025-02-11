@@ -82,7 +82,7 @@ fun MapPage(modifier: Modifier = Modifier,viewModel: MainViewModel ) {
                 )
             }
         }
-
+/*
         Marker(
             state = MarkerState(position = recife),
             title = "Recife",
@@ -104,6 +104,8 @@ fun MapPage(modifier: Modifier = Modifier,viewModel: MainViewModel ) {
             icon = BitmapDescriptorFactory.defaultMarker(
                 BitmapDescriptorFactory.HUE_GREEN)
         )
+        
+ */
     }
 
 
