@@ -19,6 +19,9 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import android.Manifest
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.scale
 import com.example.weatherapp.model.City
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
@@ -41,7 +44,8 @@ fun MapPage(modifier: Modifier = Modifier,viewModel: MainViewModel ) {
         )
     }
     GoogleMap (modifier = Modifier.fillMaxSize(), onMapClick = { viewModel.add( location = it); }, cameraPositionState = camPosState, properties = MapProperties(isMyLocationEnabled = hasLocationPermission), uiSettings = MapUiSettings(myLocationButtonEnabled = true)) {
-        viewModel.cities.forEach {
+        viewModel.cities.forEach { city ->
+        /*
             if (it.location != null) {
                 if (it.weather == null) {
 
@@ -51,6 +55,30 @@ fun MapPage(modifier: Modifier = Modifier,viewModel: MainViewModel ) {
                     state = MarkerState(position = it.location!!),
                     title = it.name,
                     snippet = it.weather?.desc ?: "Carregando..."
+                )
+            }
+
+             */
+            if (city.location != null) {
+                val drawable = getDrawable(context, R.drawable.loading)
+                val bitmap = drawable?.toBitmap(300, 200)
+                var marker = if (bitmap != null)
+                    BitmapDescriptorFactory.fromBitmap(bitmap)
+                else BitmapDescriptorFactory.defaultMarker()
+                if (city.weather == null) {
+                    viewModel.loadWeather(city)
+                } else if (city.weather!!.bitmap == null) {
+                    viewModel.loadBitmap(city)
+                } else {
+                    marker = BitmapDescriptorFactory
+                        .fromBitmap(city.weather!!.bitmap!!.scale(150, 150))
+                }
+                Marker(
+
+                    state = MarkerState(position = city.location!!),
+                    icon = marker,
+                    title = city.name,
+                    snippet = city.weather?.desc?:"carregando..."
                 )
             }
         }

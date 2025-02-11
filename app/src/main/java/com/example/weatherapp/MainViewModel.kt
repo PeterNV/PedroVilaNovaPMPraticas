@@ -101,7 +101,12 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
         _cities.remove(city.name)
         _cities[city.name] = city.copy()
     }
-
+    fun loadBitmap(city: City) {
+        service.getBitmap(city.weather!!.imgUrl) { bitmap ->
+            city.weather!!.bitmap = bitmap
+            onCityUpdated(city)
+        }
+    }
     override fun onCityRemoved(city: City) {
         _cities.remove(city.name)
     }
