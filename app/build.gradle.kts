@@ -11,12 +11,12 @@ plugins {
 
 android {
     namespace = "com.example.weatherapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.weatherapp"
         minSdk = 34
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -51,6 +51,7 @@ android {
 
 dependencies {
     // Dependências essenciais para serialização
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
     implementation("io.coil-kt:coil-compose:2.5.0") // coil
     implementation("com.squareup.picasso:picasso:2.8")
 

@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.weatherapp.model.Forecast
+import com.example.weatherapp.ui.nav.BottomNavItem.HomeButton.icon
 
 //@Preview(showBackground = true)
 @Composable
@@ -103,14 +104,36 @@ fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
                 )
             }
         }
-        if (viewModel.city!!.forecast == null) {
-            viewModel.loadForecast(viewModel.city!!); return
-        }
+        viewModel.city?.let {
+            if (viewModel.city!!.weather == null) {
+                viewModel.loadWeather(viewModel.city!!)
+            }
+            if (viewModel.city!!.forecast == null) {
+                viewModel.loadForecast(viewModel.city!!); return
+            }
+            /*
         LazyColumn {
             items(viewModel.city!!.forecast!!) { forecast ->
                 ForecastItem(forecast, onClick = { })
             }
         }
+         */
+            viewModel.city!!.forecast?.let { list ->
+                LazyColumn {
+                    items(list) { forecast ->
+                        ForecastItem(forecast, onClick = { })
+                    }
+                }
+            }
+        }
+        Icon(
+            imageVector = icon, contentDescription = "Monitorada?",
+            modifier = Modifier.size(32.dp).clickable(enabled=viewModel.city != null){
+                val isMonitored = false
+                viewModel.update(viewModel.city!!
+                    .copy(isMonitored = !isMonitored))
+            }
+        )
     }
 }
 

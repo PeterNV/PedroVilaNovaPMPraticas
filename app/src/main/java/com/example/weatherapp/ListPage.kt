@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import com.example.weatherapp.model.City
+import com.example.weatherapp.ui.nav.BottomNavItem.HomeButton.icon
 //import com.google.android.libraries.mapsplatform.transportation.consumer.model.Route
 import com.example.weatherapp.ui.nav.Route
 //@Preview(showBackground = true)
@@ -65,10 +66,19 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
             .fillMaxSize()
             .padding(8.dp)
     ) {
+
         items(cityList) { city ->
             if (city.weather == null) {
                 viewModel.loadWeather(city)
             }
+            Icon(
+                imageVector = icon, contentDescription = "Monitorada?",
+                modifier = Modifier.size(32.dp).clickable(enabled=viewModel.city != null){
+                   // val isMonitored = true
+                    viewModel.update(viewModel.city!!
+                        .copy(isMonitored = true))
+                }
+            )
             CityItem(city = city,  onClick = {
                 viewModel.city = city
                 viewModel.page = Route.Home
@@ -79,6 +89,7 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
 /* TO DO */
             })
         }
+
     }
 }
 
@@ -110,12 +121,14 @@ fun CityItem(
         //modifier = Modifier.background(Color.White)
         Spacer(modifier = Modifier.size(12.dp))
         Column(modifier = modifier.weight(1f)) {
+
             Text(modifier = Modifier,
                 text = city.name,
                 fontSize = 24.sp)
             Text(modifier = Modifier,
                 text = city.weather?.desc?:"carregando...",
                 fontSize = 16.sp)
+
         }
         IconButton(onClick = onClose) {
             Icon(Icons.Filled.Close, contentDescription = "Close")
