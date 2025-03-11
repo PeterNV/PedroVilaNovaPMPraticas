@@ -92,7 +92,7 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
             _city.value = city.copy()
         }
         refresh(city)
-        monitor.cancelCity(city)
+        monitor.updateCity(city)
     }
     private fun refresh(city: City) {
         val copy = city.copy(
@@ -113,6 +113,7 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
     override fun update(city: City) {
         db.update(city) // Chama o método update do FBDatabase
         refresh(city)   // Atualiza os dados localmente
+        monitor.updateCity(city)  // Atualiza o worker de monitoramento
     }
 
     override fun onUserLoaded(user: User) {
