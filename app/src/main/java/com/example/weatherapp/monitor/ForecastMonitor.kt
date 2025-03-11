@@ -11,8 +11,7 @@ import java.util.concurrent.TimeUnit
 
 class ForecastMonitor (context: Context) {
     private val wm = WorkManager.getInstance(context)
-    private val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as
-            NotificationManager
+    private val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     fun updateCity(city: City) {
         cancelCity(city)
 
