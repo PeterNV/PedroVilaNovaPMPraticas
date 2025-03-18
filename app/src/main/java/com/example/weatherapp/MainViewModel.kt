@@ -11,6 +11,7 @@ import com.example.weatherapp.model.User
 import com.example.weatherapp.model.Weather
 import com.example.weatherapp.model.Forecast
 import com.example.weatherapp.monitor.ForecastMonitor
+import com.example.weatherapp.repo.Repository
 import com.example.weatherapp.ui.nav.Route
 import com.google.android.gms.maps.model.LatLng
 import kotlin.random.Random
@@ -34,8 +35,12 @@ class MainViewModel : ViewModel() {
     }
 }
 */
-class MainViewModel (private val db: FBDatabase, private val service : WeatherService,  private val monitor: ForecastMonitor): ViewModel(),
-    FBDatabase.Listener {
+class MainViewModel (
+    private val db: Repository,
+    private val service : WeatherService,
+    private val monitor: ForecastMonitor): ViewModel(),
+    Repository.Listener{
+    //FBDatabase.Listener {
     private var _page = mutableStateOf<Route>(Route.Home)
     var page: Route
         get() = _page.value
@@ -110,7 +115,7 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
         monitor.cancelAll()
     }
 
-    override fun update(city: City) {
+     fun update(city: City) {
         db.update(city) // Chama o método update do FBDatabase
         refresh(city)   // Atualiza os dados localmente
         monitor.updateCity(city)  // Atualiza o worker de monitoramento
@@ -122,7 +127,7 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
 
     override fun onCityAdded(city: City) { _cities[city.name] = city }
 
-    override fun onCityUpdate(city: City) {
+     fun onCityUpdate(city: City) {
         _cities.remove(city.name)
         _cities[city.name] = city.copy()
         refresh(city)
@@ -140,7 +145,7 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
 
     }
 
-        fun loadWeather(city: City) {
+    fun loadWeather(city: City) {
         service.getCurrentWeather(city.name) { apiWeather ->
             city.weather = Weather (
                 date = apiWeather?.current?.last_updated?:"...",
@@ -173,7 +178,7 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
         }
     }
 }
-class MainViewModelFactory(private val db : FBDatabase,
+class MainViewModelFactory(private val db : Repository,
                            private val service : WeatherService,
                            private val monitor: ForecastMonitor) :
     ViewModelProvider.Factory {

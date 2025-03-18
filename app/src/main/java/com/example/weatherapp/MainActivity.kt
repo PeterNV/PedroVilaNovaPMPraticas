@@ -31,7 +31,9 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.rememberNavController
 import com.example.weatherapp.api.WeatherService
 import com.example.weatherapp.db.fb.FBDatabase
+import com.example.weatherapp.db.local.LocalDatabase
 import com.example.weatherapp.monitor.ForecastMonitor
+import com.example.weatherapp.repo.Repository
 import com.example.weatherapp.ui.CityDialog
 import com.example.weatherapp.ui.nav.BottomNavBar
 import com.example.weatherapp.ui.nav.BottomNavItem
@@ -52,10 +54,19 @@ class MainActivity : ComponentActivity() {
         setContent{
             //WeatherAppMainUI()
             val fbDB = remember { FBDatabase() }
+
             val weatherService = remember { WeatherService() }
             val monitor = remember { ForecastMonitor(context = this) }
+            val localDb = remember { LocalDatabase(
+                context = this,
+                databaseName = "DbLocal"
+            ) }
+            val repo = remember { Repository(
+                fbDB = fbDB,
+                localDB = localDb
+            ) }
             val viewModel : MainViewModel = viewModel(
-                factory = MainViewModelFactory(fbDB, weatherService,monitor)
+                factory = MainViewModelFactory( repo, weatherService,monitor)
             )
             DisposableEffect(Unit) {
                 val listener = Consumer<Intent> { intent ->
@@ -146,8 +157,7 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    }
-
+}
 
 
 
