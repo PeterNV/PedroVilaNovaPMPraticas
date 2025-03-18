@@ -12,6 +12,7 @@ interface LocalCityDAO {
     suspend fun upsert(city : LocalCity)
     @Delete
     suspend fun delete(city : LocalCity)
+
     @Query("SELECT * FROM LocalCity")
     fun getCities() : Flow<List<LocalCity>>
 }

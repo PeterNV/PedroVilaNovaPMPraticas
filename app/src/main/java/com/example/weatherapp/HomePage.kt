@@ -94,6 +94,30 @@ fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
                     text = viewModel.city?.name ?: "Selecione uma cidade...",
                     fontSize = 28.sp
                 )
+                /*
+                Icon(
+                    imageVector = if (viewModel.city?.isMonitored == true)
+                        Icons.Filled.Notifications
+                    else
+                        Icons.Outlined.Notifications,
+                    contentDescription = "Monitorada?",
+                    modifier = Modifier.size(32.dp).clickable(enabled = viewModel.city != null) {
+                        viewModel.update(viewModel.city!!.copy(isMonitored = !viewModel.city!!.isMonitored))
+                    }
+                )
+
+                 */
+                Icon(
+                    imageVector = if (viewModel.city?.isMonitored == true) Icons.Filled.Notifications else Icons.Outlined.Notifications,
+                    contentDescription = "Monitorada?",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable {
+                            val updatedCity = viewModel.city!!.copy(isMonitored = !viewModel.city!!.isMonitored)
+                            viewModel.update(updatedCity)  // Chama o método correto
+                        }
+                )
+
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = viewModel.city?.weather?.desc ?: "...",
@@ -128,16 +152,7 @@ fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
                 }
             }
         }
-        Icon(
-            imageVector = if (viewModel.city?.isMonitored == true)
-                Icons.Filled.Notifications
-            else
-                Icons.Outlined.Notifications,
-            contentDescription = "Monitorada?",
-            modifier = Modifier.size(32.dp).clickable(enabled = viewModel.city != null) {
-                viewModel.update(viewModel.city!!.copy(isMonitored = !viewModel.city!!.isMonitored))
-            }
-        )
+
     }
 }
 

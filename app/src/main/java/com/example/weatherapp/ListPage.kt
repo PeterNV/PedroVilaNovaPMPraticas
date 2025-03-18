@@ -30,6 +30,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
@@ -71,6 +73,7 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
             if (city.weather == null) {
                 viewModel.loadWeather(city)
             }
+            /*
             Icon(
                 imageVector = icon, contentDescription = "Monitorada?",
                 modifier = Modifier.size(32.dp).clickable(enabled=viewModel.city != null){
@@ -79,7 +82,18 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
                         .copy(isMonitored = true))
                 }
             )
+
+             */
+            Icon(
+                imageVector = if (city.isMonitored)
+                    Icons.Filled.Notifications
+                else
+                    Icons.Outlined.Notifications,
+                contentDescription = "Monitorada?",
+                modifier = Modifier.size(32.dp)
+            )
             CityItem(city = city,  onClick = {
+
                 viewModel.city = city
                 viewModel.page = Route.Home
 /* TO DO */      Toast.makeText(activity, "Cidade OK!", Toast.LENGTH_LONG).show()

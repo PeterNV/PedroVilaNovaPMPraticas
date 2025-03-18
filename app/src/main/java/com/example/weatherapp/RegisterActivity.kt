@@ -25,6 +25,9 @@ import com.example.weatherapp.db.fb.FBDatabase
 import com.example.weatherapp.model.User
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class RegisterActivity : ComponentActivity() {
@@ -98,6 +101,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
             ) {
                 Text("Limpar")
             }
+            /*
             Button(
                 enabled = email.isNotEmpty() && password.isNotEmpty() && password == cpassword,
                 onClick = {
@@ -120,6 +124,37 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                 }
 
             ) {Text("Registrar") }
+
+             */
+            Button(
+                enabled = email.isNotEmpty() && password.isNotEmpty() && password == cpassword,
+                onClick = {
+                    Firebase.auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(activity!!) { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(activity, "Registro OK!", Toast.LENGTH_LONG).show()
+                                activity.startActivity(
+                                    Intent(activity, MainActivity::class.java).setFlags(
+                                        FLAG_ACTIVITY_SINGLE_TOP
+                                    )
+                                )
+                                // Chamar a função suspend dentro de uma corrotina
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    val success = FBDatabase().register(User(name, email))
+                                    /*
+                                    if (success == false) {
+                                        Toast.makeText(activity, "Erro ao salvar usuário no banco!", Toast.LENGTH_LONG).show()
+                                    }
+
+                                     */
+                                }
+                            } else {
+                                Toast.makeText(activity, "Registro FALHOU!", Toast.LENGTH_LONG).show()
+                            }
+                        }
+                }
+            ) { Text("Registrar") }
+
         }
     }
 }
