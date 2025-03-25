@@ -9,6 +9,8 @@ import com.example.weatherapp.api.WeatherService
 import com.example.weatherapp.api.toForecast
 import com.example.weatherapp.api.toWeather
 import com.example.weatherapp.db.fb.FBDatabase
+import com.example.weatherapp.db.local.LocalDatabase
+import com.example.weatherapp.db.local.toLocalCity
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.User
 import com.example.weatherapp.model.Weather
@@ -76,9 +78,15 @@ class MainViewModel(
         repository.add(City(name = name, location = location))
     }
 
-    fun update(city: City) = viewModelScope.launch(Dispatchers.IO) {
-        repository.update(city)
-        refresh(city)
+    fun update(city: City) = viewModelScope.launch(Dispatchers.Main) {
+        repository.update(city) // Atualiza no banco
+        _cities[city.name] = city.copy(salt = Random.nextLong()) // Força a atualização do estado
+        monitor.updateCity(city) // Atualiza o monitoramento
+        viewModelScope.launch {
+            monitor.updateCity(city) // Atualiza no Firebase
+            repository.update(city) // Atualiza no banco local
+            _city.value = city // Garante que a UI seja notificada
+        }
     }
 
     fun remove(city: City) = viewModelScope.launch(Dispatchers.IO) {
@@ -123,4 +131,7 @@ class MainViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
+
+
 

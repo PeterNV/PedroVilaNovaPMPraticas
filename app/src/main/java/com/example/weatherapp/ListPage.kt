@@ -34,6 +34,7 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+
 import coil.compose.AsyncImage
 import com.example.weatherapp.model.City
 import com.example.weatherapp.ui.nav.BottomNavItem.HomeButton.icon
@@ -84,14 +85,22 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
             )
 
              */
-            Icon(
-                imageVector = if (city.isMonitored)
-                    Icons.Filled.Notifications
-                else
-                    Icons.Outlined.Notifications,
-                contentDescription = "Monitorada?",
-                modifier = Modifier.size(32.dp)
-            )
+            //val cityi = viewModel.cities
+
+                println(city?.isMonitored)
+                Icon(
+                    imageVector = if (city.isMonitored)
+                        Icons.Filled.Notifications
+                    else
+                        Icons.Outlined.Notifications,
+                    contentDescription = "Monitorada?",
+                    modifier = Modifier.size(32.dp)
+                )
+
+
+            //viewModel.city = city
+
+
             CityItem(city = city,  onClick = {
 
                 viewModel.city = city

@@ -108,6 +108,24 @@ fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
 
                  */
                 Icon(
+                    imageVector = if (viewModel.city?.isMonitored == true)
+                        Icons.Filled.Notifications
+                    else
+                        Icons.Outlined.Notifications,
+                    contentDescription = "Monitorada?",
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable {
+                            viewModel.city?.let { currentCity ->
+                                val updatedCity = currentCity.copy(isMonitored = !currentCity.isMonitored)
+                                viewModel.update(updatedCity)  // Atualiza o estado corretamente
+                                viewModel.city = updatedCity   // Garante que a UI recombine
+                            }
+                        }
+                )
+
+                /*
+                Icon(
                     imageVector = if (viewModel.city?.isMonitored == true) Icons.Filled.Notifications else Icons.Outlined.Notifications,
                     contentDescription = "Monitorada?",
                     modifier = Modifier
@@ -117,7 +135,7 @@ fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
                             viewModel.update(updatedCity)  // Chama o método correto
                         }
                 )
-
+*/
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = viewModel.city?.weather?.desc ?: "...",

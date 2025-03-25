@@ -54,12 +54,14 @@ class MainActivity : ComponentActivity() {
         setContent{
             //WeatherAppMainUI()
             val fbDB = remember { FBDatabase() }
+            val user = Firebase.auth.currentUser
+            val uid = user?.uid ?: "default_user"
 
             val weatherService = remember { WeatherService() }
             val monitor = remember { ForecastMonitor(context = this) }
             val localDb = remember { LocalDatabase(
                 context = this,
-                databaseName = "DbLocal"
+                databaseName = uid
             ) }
             val repo = remember { Repository(
                 fbDB = fbDB,
