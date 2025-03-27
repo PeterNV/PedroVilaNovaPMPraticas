@@ -8,19 +8,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.api.WeatherService
 import com.example.weatherapp.api.toForecast
 import com.example.weatherapp.api.toWeather
-import com.example.weatherapp.db.fb.FBDatabase
-import com.example.weatherapp.db.local.LocalDatabase
-import com.example.weatherapp.db.local.toLocalCity
+
 import com.example.weatherapp.model.City
 import com.example.weatherapp.model.User
-import com.example.weatherapp.model.Weather
-import com.example.weatherapp.model.Forecast
+
 import com.example.weatherapp.monitor.ForecastMonitor
 import com.example.weatherapp.repo.Repository
 import com.example.weatherapp.ui.nav.Route
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 

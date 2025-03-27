@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-//import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,8 +20,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.platform.LocalContext
-import com.example.weatherapp.db.fb.FBDatabase
-import com.example.weatherapp.model.User
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +31,7 @@ class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //enableEdgeToEdge()
+
         setContent {
             WeatherAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -53,7 +50,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
     var password by rememberSaveable { mutableStateOf("") }
     var cpassword by rememberSaveable { mutableStateOf("") }
     var name by rememberSaveable { mutableStateOf("") }
-    val context = LocalContext.current // Obtenha o contexto aqui
+
 
     val activity = LocalContext.current as? Activity
 
@@ -101,31 +98,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
             ) {
                 Text("Limpar")
             }
-            /*
-            Button(
-                enabled = email.isNotEmpty() && password.isNotEmpty() && password == cpassword,
-                onClick = {
 
-                    Firebase.auth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(activity!!) { task ->
-                            if (task.isSuccessful) {
-                                Toast.makeText(activity,"Registro OK!", Toast.LENGTH_LONG).show()
-                                activity.startActivity(
-                                    Intent(activity, MainActivity::class.java).setFlags(
-                                        FLAG_ACTIVITY_SINGLE_TOP )
-                                )
-                                FBDatabase().register(User(name, email))
-                            } else {
-                                Toast.makeText(activity,
-                                    "Registro FALHOU!", Toast.LENGTH_LONG).show()
-                            }
-                        }
-
-                }
-
-            ) {Text("Registrar") }
-
-             */
             Button(
                 enabled = email.isNotEmpty() && password.isNotEmpty() && password == cpassword,
                 onClick = {
@@ -140,13 +113,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                                 )
                                 // Chamar a função suspend dentro de uma corrotina
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    val success = FBDatabase().register(User(name, email))
-                                    /*
-                                    if (success == false) {
-                                        Toast.makeText(activity, "Erro ao salvar usuário no banco!", Toast.LENGTH_LONG).show()
-                                    }
 
-                                     */
                                 }
                             } else {
                                 Toast.makeText(activity, "Registro FALHOU!", Toast.LENGTH_LONG).show()

@@ -15,8 +15,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.LocationOn
+
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
@@ -29,33 +28,17 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.weatherapp.model.Forecast
-import com.example.weatherapp.ui.nav.BottomNavItem.HomeButton.icon
+
 
 //@Preview(showBackground = true)
 @Composable
 fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
-    /*
 
-        Column(
-            modifier = Modifier.fillMaxSize()
-                .background(colorResource(id = R.color.teal_700))
-                .wrapContentSize(Alignment.Center)
-        ) {
-            Text(
-                text = "Home",
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp
-            )
-        }
-    */
     Column {
         if (viewModel.city == null) {
             Column(
@@ -75,13 +58,7 @@ fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
         }
 
         Row {
-            /*
-            Icon(
-                imageVector = Icons.Filled.AccountBox,
-                contentDescription = "Localized description",
-                modifier = Modifier.size(150.dp)
-            )
-             */
+
             AsyncImage( // Substitui o Icon
                 model = viewModel.city?.weather?.imgUrl,
                 modifier = Modifier.size(100.dp),
@@ -94,19 +71,7 @@ fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
                     text = viewModel.city?.name ?: "Selecione uma cidade...",
                     fontSize = 28.sp
                 )
-                /*
-                Icon(
-                    imageVector = if (viewModel.city?.isMonitored == true)
-                        Icons.Filled.Notifications
-                    else
-                        Icons.Outlined.Notifications,
-                    contentDescription = "Monitorada?",
-                    modifier = Modifier.size(32.dp).clickable(enabled = viewModel.city != null) {
-                        viewModel.update(viewModel.city!!.copy(isMonitored = !viewModel.city!!.isMonitored))
-                    }
-                )
 
-                 */
                 Icon(
                     imageVector = if (viewModel.city?.isMonitored == true)
                         Icons.Filled.Notifications
@@ -124,18 +89,7 @@ fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
                         }
                 )
 
-                /*
-                Icon(
-                    imageVector = if (viewModel.city?.isMonitored == true) Icons.Filled.Notifications else Icons.Outlined.Notifications,
-                    contentDescription = "Monitorada?",
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clickable {
-                            val updatedCity = viewModel.city!!.copy(isMonitored = !viewModel.city!!.isMonitored)
-                            viewModel.update(updatedCity)  // Chama o método correto
-                        }
-                )
-*/
+
                 Spacer(modifier = Modifier.size(12.dp))
                 Text(
                     text = viewModel.city?.weather?.desc ?: "...",
@@ -155,13 +109,7 @@ fun HomePage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
             if (viewModel.city!!.forecast == null) {
                 viewModel.loadForecast(viewModel.city!!); return
             }
-            /*
-        LazyColumn {
-            items(viewModel.city!!.forecast!!) { forecast ->
-                ForecastItem(forecast, onClick = { })
-            }
-        }
-         */
+
             viewModel.city!!.forecast?.let { list ->
                 LazyColumn {
                     items(list) { forecast ->
@@ -186,14 +134,7 @@ fun ForecastItem(forecast: Forecast, onClick: (Forecast) -> Unit, modifier: Modi
             .clickable(onClick = { onClick(forecast) }),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        /*
-        Icon(
-            imageVector = Icons.Filled.LocationOn,
-            contentDescription = "Localized description",
-            modifier = Modifier.size(48.dp)
-        )
 
-         */
         AsyncImage( // Substitui o Icon
             model = forecast.imgUrl,
             modifier = Modifier.size(40.dp),

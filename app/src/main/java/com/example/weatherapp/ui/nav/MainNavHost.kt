@@ -8,8 +8,6 @@ import com.example.weatherapp.HomePage
 import com.example.weatherapp.ListPage
 import com.example.weatherapp.MainViewModel
 import com.example.weatherapp.MapPage
-import com.example.weatherapp.model.City
-
 
 @Composable
 fun MainNavHost(navController: NavHostController,viewModel: MainViewModel) {
